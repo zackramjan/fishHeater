@@ -1,6 +1,4 @@
-FROM centos:latest
-
-RUN yum install -y git python3 python3-requests python3-pip && pip install python-kasa && pip install ambient-api
-RUN git clone https://github.com/zackramjan/restartHeater.git
-WORKDIR /restartHeater
-ENTRYPOINT [ "/usr/bin/env", "bash", "entrypoint.sh" ]
+FROM almalinux:9
+RUN yum install -y python3 python3-requests python3-pip && pip install python-kasa && pip install ambient-api
+COPY pondHeater.py /
+ENTRYPOINT [ "/usr/bin/env", "python3", "pondHeater.py" ]

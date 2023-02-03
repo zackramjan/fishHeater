@@ -18,9 +18,9 @@ async def main():
     PondTargetTempLow = 37.0
     while True:
         try:
-            weather = AmbientAPI(AMBIENT_API_KEY="x",AMBIENT_APPLICATION_KEY="x",AMBIENT_ENDPOINT="https://api.ambientweather.net/v1")
+            #weather = AmbientAPI(AMBIENT_API_KEY="x",AMBIENT_APPLICATION_KEY="x",AMBIENT_ENDPOINT="https://api.ambientweather.net/v1")
             weatherStation = weather.get_devices()[0];
-            sleep(1)
+            await asyncio.sleep(10) 
             WeatherDataList = weatherStation.get_data()
             weatherData = WeatherDataList[0]
             pondTemp = float(weatherData["temp4f"]);
@@ -41,8 +41,8 @@ async def main():
 
         except:
            traceback.print_exc()
-           sleep(60)
-        sleep(600) 
+           await asyncio.sleep(60)
+        await asyncio.sleep(600) 
 
 if __name__ == '__main__':
     asyncio.run(main())
