@@ -18,10 +18,11 @@ async def main():
     PondTargetTempLow = 37.0
     while True:
         try:
-            weather = AmbientAPI(AMBIENT_API_KEY="xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",AMBIENT_APPLICATION_KEY="xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",AMBIENT_ENDPOINT="https://api.ambientweather.net/v1")
+            weather = AmbientAPI(AMBIENT_API_KEY="x",AMBIENT_APPLICATION_KEY="x",AMBIENT_ENDPOINT="https://api.ambientweather.net/v1")
             weatherStation = weather.get_devices()[0];
             sleep(1)
-            weatherData = weatherStation.get_data()[0]
+            WeatherDataList = weatherStation.get_data()
+            weatherData = WeatherDataList[0]
             pondTemp = float(weatherData["temp4f"]);
 
             #KASA STRIP
@@ -31,12 +32,12 @@ async def main():
 
             if plug.is_on and pondTemp > PondTargetTempHigh:
                 await plug.turn_off()
-                logIt(plug.alias + "\tON=" + str(plug.is_on) + "\tPond Temp=" + str(pondTemp) + "\tTURNING OFF")
+                logIt(plug.alias + "\tPOWER=" + str(plug.is_on) + "\tPond Temp=" + str(pondTemp) + "\tTURNING OFF")
             elif not plug.is_on and pondTemp < PondTargetTempLow:
                 await plug.turn_on()
-                logIt(plug.alias + "\tON=" + str(plug.is_on) + "\tPond Temp=" + str(pondTemp) + "\tTURNING ON")
+                logIt(plug.alias + "\tPOWER=" + str(plug.is_on) + "\tPond Temp=" + str(pondTemp) + "\tTURNING ON")
             else:
-                logIt(plug.alias + "\tON=" + str(plug.is_on) + "\tPond Temp=" + str(pondTemp) + "\tNO ACTION")
+                logIt(plug.alias + "\tPOWER=" + str(plug.is_on) + "\tPond Temp=" + str(pondTemp) + "\tNO ACTION")
 
         except:
            traceback.print_exc()
